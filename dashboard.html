@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Visitor Dashboard</title>
+  <style>
+    body {
+      font-family: system-ui;
+      background: #0e0e11;
+      color: #eaeaf0;
+      padding: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border-bottom: 1px solid #333;
+      padding: 8px;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      color: #9aa4ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Visitors</h1>
+  <table id="table">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>IP</th>
+        <th>Country</th>
+        <th>City</th>
+        <th>Region</th>
+        <th>User Agent</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch("/visitors")
+      .then(r => r.json())
+      .then(data => {
+        const tbody = document.querySelector("tbody");
+        data.forEach(v => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${v.visited_at}</td>
+            <td>${v.ip}</td>
+            <td>${v.country}</td>
+            <td>${v.city}</td>
+            <td>${v.region}</td>
+            <td>${v.user_agent}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+  </script>
+</body>
+</html>
